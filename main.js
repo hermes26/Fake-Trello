@@ -122,9 +122,9 @@ function matchTarea(pattern){
 }
 
 //////////////////////////////////////////////
-document.querySelector('#p1').addEventListener('mdl-componentupgraded', function() {
-    this.MaterialProgress.setProgress(44);
-  });
+// document.querySelector('#p1').addEventListener('mdl-componentupgraded', function() {
+//     this.MaterialProgress.setProgress(44);
+//   });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////INPUT EVENT LISTENER/////////////////////////////////////////////////
@@ -162,6 +162,9 @@ document.querySelector('.inputTarea').addEventListener('keyup', event => {
 
         // create Box to contain the percentage subtareas done
         createPercentageBox(IDtarea)
+        
+        //createProgressBar(IDtarea)  /////////////////new stuff
+
 
         //7. create INPUT for subtareas
         createSubInputBar(IDtarea);
@@ -201,6 +204,19 @@ function createPercentageBox(IDtarea){
     document.querySelector(`.tareaBox-${IDtarea}`).appendChild(percentageBox)
     percentageBox.className = `percentageDone-${IDtarea}`;
 }
+
+//////////////////////////////////////////////////////////////////////////////NEW STUFFFFFFFFFF
+function createProgressBar(IDtarea){
+    let html = `<div id="p1" class="mdl-progress mdl-js-progress"></div>`
+    document.querySelector(`.tareaBox-${IDtarea}`).insertAdjacentHTML("beforeend", html)
+    document.querySelector('#p1').MaterialProgress.setProgress(0);
+
+    // document.querySelector('#p1').addEventListener('mdl-componentupgraded', function() {
+    //         this.MaterialProgress.setProgress(44);
+    //       });
+
+}
+///////////////////////////////////////////////////////////////
 
 function createSubInputBar(IDtarea) { // ex createSubInput
     let subInputBox = document.createElement('div');
@@ -274,6 +290,14 @@ function addEventListenerSubTarea(IDtarea, num) {
             //4. get the percentage of subtareas done
             percentage = getPercentage(IDtareaInput);
             setUIPercentage(percentage, IDtareaInput);
+            document.querySelector('#p1').MaterialProgress.setProgress(percentage);
+            
+            ///////////////////////////////////////////////////////////////////////////7
+            // console.log(document.querySelector('#p1'))
+            // document.querySelector('#p1').addEventListener('mdl-componentupgraded', function() {
+            //         this.MaterialProgress.setProgress(percentage);
+            //       })
+            //////////////////////////////////////////////////////////////////////////////
 
             //4. create a CONTAINER to contain  ALL the subtareas, IF one DOESNT exist
             console.log(location.parentNode.nextSibling);
@@ -365,8 +389,11 @@ function subTareaDone(checkBoxElem, checkBoxID) {
         //update the UI
         percentage = getPercentage(cBoxIDtarea);
         setUIPercentage(percentage, cBoxIDtarea)
-        //document.querySelector('#p1').MaterialProgress.setProgress(percentage);
-        ////setProgress1(percentage);   ON HOLD
+        document.querySelector('#p1').MaterialProgress.setProgress(percentage);
+        // document.querySelector('#p1').addEventListener('mdl-componentupgraded', function(percentage) {
+        //     this.MaterialProgress.setProgress(percentage);
+        //   })
+        
 
     } else {
         console.log('unchecked')
@@ -376,8 +403,11 @@ function subTareaDone(checkBoxElem, checkBoxID) {
         percentage = getPercentage(arr[1]);
         console.log(percentage)
         setUIPercentage(percentage, arr[1])
-        //document.querySelector('#p1').MaterialProgress.setProgress(percentage);
-        //setProgress1(percentage);//////////ON HOLD
+        document.querySelector('#p1').MaterialProgress.setProgress(percentage);
+        // document.querySelector('#p1').addEventListener('mdl-componentupgraded', function() {
+        //     this.MaterialProgress.setProgress(percentage);
+        //   })
+        
     }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -443,6 +473,11 @@ function setUIPercentage(percentage, IDtarea){
     //document.querySelector(`.tareaBox-${cBoxIDtarea}`).insertAdjacentHTML('afterend', newHtml)
     console.log(document.getElementById(`.percentageDone-${IDtarea}`))
     document.querySelector(`.percentageDone-${IDtarea}`).textContent = `${percentage}%`;
+
+    
+    // let html = `<div id="p1" class="mdl-progress mdl-js-progress"></div>`
+    // document.querySelector(`.tareaBox-${IDtarea}`).insertAdjacentHTML("afterend", html)
+
 }
 
 
