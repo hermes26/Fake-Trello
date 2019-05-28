@@ -109,6 +109,7 @@ function getIndex(IDtarea){
 }
 
 function updateDone(IDtarea, IDsubTarea){
+    console.log(data.tareas);
     data.tareas[IDtarea].subtareas[IDsubTarea].done = true;
 }
 
@@ -120,11 +121,6 @@ function matchTarea(pattern){
     })
     console.log(arr2);
 }
-
-//////////////////////////////////////////////
-// document.querySelector('#p1').addEventListener('mdl-componentupgraded', function() {
-//     this.MaterialProgress.setProgress(44);
-//   });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////INPUT EVENT LISTENER/////////////////////////////////////////////////
@@ -190,7 +186,7 @@ function createTareaBox(IDtarea, title) {
     //create box
     tareaBox = document.createElement('div');
     document.querySelector(`.container-${IDtarea}`).appendChild(tareaBox);
-    tareaBox.className = `tareaBox-${IDtarea}`;   //ex mainTitle-
+    tareaBox.className = `tareaBox-${IDtarea}`;   //ex mainTitle- 
 
     //add tarea title
     tareaTitle = document.createElement('div');
@@ -201,21 +197,23 @@ function createTareaBox(IDtarea, title) {
 function createPercentageBox(IDtarea){
     percentageBox = document.createElement('div');
     percentageBox.textContent = '';
-    document.querySelector(`.tareaBox-${IDtarea}`).appendChild(percentageBox)
-    percentageBox.className = `percentageDone-${IDtarea}`;
+    percentageBox.innerHTML = `<div id="p1" class="mdl-progress mdl-js-progress"></div><div class = percentageDone-${IDtarea}></div>`//new
+    document.querySelector(`.container-${IDtarea}`).appendChild(percentageBox)
+    percentageBox.className = `percentageBox-${IDtarea}`;
 }
 
 //////////////////////////////////////////////////////////////////////////////NEW STUFFFFFFFFFF
-function createProgressBar(IDtarea){
-    let html = `<div id="p1" class="mdl-progress mdl-js-progress"></div>`
-    document.querySelector(`.tareaBox-${IDtarea}`).insertAdjacentHTML("beforeend", html)
-    document.querySelector('#p1').MaterialProgress.setProgress(0);
+// function createProgressBar(IDtarea){
+//     let html = `<div id="p1" class="mdl-progress mdl-js-progress"></div>`
+//     document.querySelector(`.container-${IDtarea}`).insertAdjacentHTML("beforeend", html)
+//     console.log('here');
+    // document.querySelector('#p1').MaterialProgress.setProgress(0);
 
     // document.querySelector('#p1').addEventListener('mdl-componentupgraded', function() {
     //         this.MaterialProgress.setProgress(44);
     //       });
 
-}
+//}
 ///////////////////////////////////////////////////////////////
 
 function createSubInputBar(IDtarea) { // ex createSubInput
@@ -235,6 +233,7 @@ function createSubInputBar(IDtarea) { // ex createSubInput
 function createConfirmBtn(IDtarea) { // ex toConfirm
     let completedBtn = document.createElement('button');
     completedBtn.innerHTML = '<i class="far fa-check-circle"></i>';
+    console.log(document.querySelector(`.tareaBox-${IDtarea}`))
     document.querySelector(`.tareaBox-${IDtarea}`).appendChild(completedBtn);
 
     completedBtn.addEventListener('click', event => {
@@ -290,7 +289,8 @@ function addEventListenerSubTarea(IDtarea, num) {
             //4. get the percentage of subtareas done
             percentage = getPercentage(IDtareaInput);
             setUIPercentage(percentage, IDtareaInput);
-            document.querySelector('#p1').MaterialProgress.setProgress(percentage);
+            //console.log(document.querySelector('#p1'))
+            //document.querySelector('#p1').MaterialProgress.setProgress(percentage);
             
             ///////////////////////////////////////////////////////////////////////////7
             // console.log(document.querySelector('#p1'))
@@ -389,7 +389,7 @@ function subTareaDone(checkBoxElem, checkBoxID) {
         //update the UI
         percentage = getPercentage(cBoxIDtarea);
         setUIPercentage(percentage, cBoxIDtarea)
-        document.querySelector('#p1').MaterialProgress.setProgress(percentage);
+        //document.querySelector('#p1').MaterialProgress.setProgress(percentage);
         // document.querySelector('#p1').addEventListener('mdl-componentupgraded', function(percentage) {
         //     this.MaterialProgress.setProgress(percentage);
         //   })
@@ -403,7 +403,7 @@ function subTareaDone(checkBoxElem, checkBoxID) {
         percentage = getPercentage(arr[1]);
         console.log(percentage)
         setUIPercentage(percentage, arr[1])
-        document.querySelector('#p1').MaterialProgress.setProgress(percentage);
+        //document.querySelector('#p1').MaterialProgress.setProgress(percentage);
         // document.querySelector('#p1').addEventListener('mdl-componentupgraded', function() {
         //     this.MaterialProgress.setProgress(percentage);
         //   })
@@ -451,11 +451,16 @@ function createSubTareaDeleteBtn(IDtareaInput, IDsubTarea) {
         //set percentage
         setUIPercentage(percentage, IDtareaInput);
 
+        //update progress bar
+        document.querySelector('#p1').MaterialProgress.setProgress(percentage);
+
         //remove on UI
         console.log(event.target.parentNode.parentNode)
         event.target.parentNode.parentNode.remove();
 
         console.log(data.tareas)
+
+        
     })    
 }
 
